@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vslentines</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('background.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            background-color: #fff0f3;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-text {
+            position: absolute;
+            color: #ff4d6d; 
+            font-weight: bold;
+            z-index: 1;
+            pointer-events: none;
+            white-space: nowrap;
+            user-select: none;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.4);
+            text-align: center;
+            z-index: 10;
+            max-width: 400px;
+            border: 4px solid #ff4d6d;
+        }
+
+        #mainGif {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #c9184a;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 120px;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 18px;
+            border: none;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            z-index: 11;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            z-index: 12;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img id="mainGif" src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHR6bm9yeXo1eHl3eGZ6ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Hearts">
+        <h1 id="question">Can i be your Valentine, Milania?</h1>
+        
+        <div class="buttons" id="buttonArea">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const bgMessages = [
+            "I LOVE YOU SO MUCH", "you are the most beautiful woman ever",
+            "you are everything i want", "my favourite math equation is you+me, because it's the answer of everything"
+        ];
+
+        function populateBackground() {
+            for (let i = 0; i < 150; i++) {
+                const span = document.createElement('span');
+                span.className = 'bg-text';
+                span.innerText = bgMessages[Math.floor(Math.random() * bgMessages.length)];
+                span.style.left = Math.random() * 100 + "vw";
+                span.style.top = Math.random() * 100 + "vh";
+                span.style.fontSize = (Math.random() * 1.2 + 0.5) + "rem";
+                span.style.opacity = Math.random() * 0.5 + 0.1;
+                span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+                document.body.appendChild(span);
+            }
+        }
+        populateBackground();
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const buttonArea = document.getElementById('buttonArea');
+        const question = document.getElementById('question');
+        const mainGif = document.getElementById('mainGif');
+
+        const noButtonPhrases = [
+            "No",
+            "Are you sure?",
+            "Don't do this to me :(",
+            "Milania please...",
+            "Think again!",
+            "You're breaking my heart",
+            "I'm gonna cry.. You hate me",
+            "Just click Yes already!"
+        ];
+        let phraseIndex = 0;
+
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            noBtn.innerText = noButtonPhrases[phraseIndex];
+            phraseIndex = (phraseIndex + 1) % noButtonPhrases.length;
+
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 12) + "px";
+            yesBtn.style.padding = (currentSize * 0.8) + "px " + (currentSize * 1.5) + "px";
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+
+        yesBtn.addEventListener('click', () => {
+            // FIX: This removes both buttons from the screen entirely
+            buttonArea.innerHTML = ""; 
+            noBtn.style.display = "none"; 
+            
+            question.innerText = "There you go, such a good girl. I love you so much Milania 💛";
+            mainGif.src = "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHR6bm9yeXo1eHl3eGZ6ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif";
+        });
+    </script>
+</body>
+</html>
